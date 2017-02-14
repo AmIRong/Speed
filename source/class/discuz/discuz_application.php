@@ -44,7 +44,25 @@ class discuz_application extends discuz_base{
 		'_ENV' => 1,
 		'_FILES' => 1,
 	);
-
+	public function timezone_set($timeoffset = 0) {
+	    if(function_exists('date_default_timezone_set')) {
+	        @date_default_timezone_set('Etc/GMT'.($timeoffset > 0 ? '-' : '+').(abs($timeoffset)));
+	    }
+	}
+	static function &instance() {
+	    static $object;
+	    if(empty($object)) {
+	        $object = new self();
+	    }
+	    return $object;
+	}
+	public function __construct() {
+	    $this->_init_env();
+	    $this->_init_config();
+	    $this->_init_input();
+	    $this->_init_output();
+	}
+	
 }
 
 ?>
